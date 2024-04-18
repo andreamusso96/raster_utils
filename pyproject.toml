@@ -8,10 +8,14 @@ version = "0.1.0"
 authors = [{name = "Andrea Musso"}]
 requires-python = ">=3.7"
 dependencies = [
-    "joblib",
     "numpy",
     "pandas",
     "xarray",
     "tqdm",
-    "geopandas"
+    "geopandas",
+    "rasterio",
+    "rasterstats",
+    "geocube",
+    "rioxarray",
+    "shapely"
 ]
