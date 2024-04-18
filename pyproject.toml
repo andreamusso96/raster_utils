@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "raster_utils"
+version = "0.1.0"
+authors = [{name = "Andrea Musso"}]
+requires-python = ">=3.7"
+dependencies = [
+    "joblib",
+    "numpy",
+    "pandas",
+    "xarray",
+    "tqdm",
+    "geopandas"
+]
