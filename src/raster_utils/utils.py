@@ -23,11 +23,13 @@ def rasterize_points(gdf: gpd.GeoDataFrame, measurements: List[str], tile_size: 
     return raster
 
 
-def extract_zonal_stats(raster: xr.DataArray, no_data: float, vector: gpd.GeoDataFrame) -> pd.DataFrame:
+def extract_zonal_stats(raster: xr.DataArray, no_data: float, vector: gpd.GeoDataFrame, stats: List[str] = ['mean'], all_touched: bool = True) -> pd.DataFrame:
     _check_xarray_is_2d_raster(raster=raster)
-    mean_val = rasterstats.zonal_stats(vectors=vector.geometry, raster=raster.values, affine=raster.rio.transform(), nodata=no_data, stats=['mean'], all_touched=True)
-    mean_val = pd.DataFrame([r['mean'] for r in mean_val], columns=['mean_raster_value'], index=vector.index)
-    vector_with_zonal_stats = gpd.GeoDataFrame(pd.merge(vector, mean_val, left_index=True, right_index=True, how='left'))
+    vector['tmp_index'] = np.arange(len(vector))
+    raster_statistics = rasterstats.zonal_stats(vectors=vector.geometry, raster=raster.values, affine=raster.rio.transform(), nodata=no_data, stats=stats, all_touched=True)
+    raster_statistics = pd.DataFrame([[r[k] for k in stats] for r in raster_statistics], index=np.arange(len(vector)), columns=[f'{s}_raster_value' for s in stats])
+    vector_with_zonal_stats = gpd.GeoDataFrame(pd.merge(vector, raster_statistics, left_on='tmp_index', right_index=True, how='left'))
+    vector_with_zonal_stats.drop(columns='tmp_index', inplace=True)
     # Returns null for vectors that do not intersect the raster
     return vector_with_zonal_stats
 
