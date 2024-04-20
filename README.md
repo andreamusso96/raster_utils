@@ -3,16 +3,10 @@ This repository contains a set of scripts that can be used to work with raster d
 The scripts are essentially wrappers around other libraries that contain the main functionalities.
 
 ## Installation
-To install the package just clone the repostiory on your computer running
+To install the package just run
 ```bash
-git clone https://github.com/andreamusso96/raster_utils.git
+pip install git+https://github.com/andreamusso96/raster_utils.git
 ```
-
-Then navigate to the directory and run
-```bash
-pip install -e .
-```
-The -e flag is used to install the package in editable mode, so that you can modify the code and see the changes without having to reinstall the package.
 
 ## Usage
 Here is a list of the main functionalities provided by the package.
